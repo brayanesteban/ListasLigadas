@@ -1,3 +1,4 @@
 <Solution>
-  <Project Path="ConsoleApp1/ConsoleApp1.csproj" />
+  <Project Path="ConsoleApp1/DoublyLinkedListApp.csproj" />
+  <Project Path="DoublyLinkedListLib/DoublyLinkedListLib.csproj" Id="b0b673fc-e79e-44bf-92f1-bb54a891a1ff" />
 </Solution>
