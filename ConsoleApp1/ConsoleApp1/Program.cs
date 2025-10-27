@@ -37,7 +37,9 @@ namespace DoublyLinkedListApp
                         var data = Console.ReadLine()?.Trim();
                         if (!string.IsNullOrEmpty(data))
                         {
-                            list.InsertSorted(data);
+                            // normalize to lower-case for consistent comparisons
+                            var norm = data.ToLowerInvariant();
+                            list.InsertSorted(norm);
                             Console.WriteLine("\nAgregado correctamente.");
                         }
                         else
@@ -59,6 +61,8 @@ namespace DoublyLinkedListApp
                     case 4:
                         list.SortDescending();
                         Console.WriteLine("Lista ordenada descendentemente.");
+                        Console.WriteLine("Lista (adelante):");
+                        list.DisplayForward();
                         break;
 
                     case 5:
@@ -71,20 +75,23 @@ namespace DoublyLinkedListApp
 
                     case 7:
                         Console.Write("Ingrese dato a buscar: ");
-                        var search = Console.ReadLine()?.Trim();
-                        Console.WriteLine(list.Exists(search) ? "Sí existe ✅" : "No existe ❌");
+                        var searchRaw = Console.ReadLine()?.Trim();
+                        var search = string.IsNullOrEmpty(searchRaw) ? null : searchRaw.ToLowerInvariant();
+                        Console.WriteLine(search != null && list.Exists(search) ? "Sí existe" : "No existe");
                         break;
 
                     case 8:
                         Console.Write("Dato a eliminar UNA vez: ");
-                        var rem1 = Console.ReadLine()?.Trim();
-                        Console.WriteLine(list.RemoveOne(rem1) ? "Eliminado ✅" : "No se encontró ❌");
+                        var rem1Raw = Console.ReadLine()?.Trim();
+                        var rem1 = string.IsNullOrEmpty(rem1Raw) ? null : rem1Raw.ToLowerInvariant();
+                        Console.WriteLine(rem1 != null && list.RemoveOne(rem1) ? "Eliminado" : "No se encontró ");
                         break;
 
                     case 9:
                         Console.Write("Dato a eliminar TODAS las veces: ");
-                        var remAll = Console.ReadLine()?.Trim();
-                        int c = list.RemoveAll(remAll);
+                        var remAllRaw = Console.ReadLine()?.Trim();
+                        var remAll = string.IsNullOrEmpty(remAllRaw) ? null : remAllRaw.ToLowerInvariant();
+                        int c = remAll != null ? list.RemoveAll(remAll) : 0;
                         Console.WriteLine($"Se eliminaron {c} ocurrencias.");
                         break;
 

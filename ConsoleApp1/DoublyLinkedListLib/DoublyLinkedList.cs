@@ -5,27 +5,12 @@ namespace DoublyLinkedListLib
 {
     public class DoublyLinkedList<T> where T : IComparable<T>
     {
-        private class Node
-        {
-            public T Data;
-            public Node Next;
-            public Node Prev;
+        private Node<T>? head;
+        private Node<T>? tail;
 
-            public Node(T data)
-            {
-                Data = data;
-                Next = null;
-                Prev = null;
-            }
-        }
-
-        private Node head;
-        private Node tail;
-
-        // Insertar de forma ordenada ascendente
         public void InsertSorted(T data)
         {
-            var newNode = new Node(data);
+            var newNode = new Node<T>(data);
 
             if (head == null)
             {
@@ -33,7 +18,7 @@ namespace DoublyLinkedListLib
                 return;
             }
 
-            if (data.CompareTo(head.Data) <= 0)
+            if (data.CompareTo(head.Data) <=0)
             {
                 newNode.Next = head;
                 head.Prev = newNode;
@@ -42,7 +27,7 @@ namespace DoublyLinkedListLib
             }
 
             var current = head;
-            while (current.Next != null && data.CompareTo(current.Next.Data) > 0)
+            while (current.Next != null && data.CompareTo(current.Next.Data) >0)
             {
                 current = current.Next;
             }
@@ -62,10 +47,9 @@ namespace DoublyLinkedListLib
             }
         }
 
-        // Helper: añadir al final
         private void AddLast(T data)
         {
-            var node = new Node(data);
+            var node = new Node<T>(data);
             if (tail == null)
             {
                 head = tail = node;
@@ -99,7 +83,6 @@ namespace DoublyLinkedListLib
             Console.WriteLine();
         }
 
-        // Reconstruye la lista en orden descendente
         public void SortDescending()
         {
             if (head == null) return;
@@ -122,10 +105,11 @@ namespace DoublyLinkedListLib
 
         public bool Exists(T data)
         {
+            var comparer = EqualityComparer<T>.Default;
             var current = head;
             while (current != null)
             {
-                if (current.Data.CompareTo(data) == 0) return true;
+                if (comparer.Equals(current.Data, data)) return true;
                 current = current.Next;
             }
             return false;
@@ -133,10 +117,11 @@ namespace DoublyLinkedListLib
 
         public bool RemoveOne(T data)
         {
+            var comparer = EqualityComparer<T>.Default;
             var current = head;
             while (current != null)
             {
-                if (current.Data.CompareTo(data) == 0)
+                if (comparer.Equals(current.Data, data))
                 {
                     if (current == head)
                     {
@@ -164,15 +149,14 @@ namespace DoublyLinkedListLib
 
         public int RemoveAll(T data)
         {
-            int count = 0;
-            // Iterate once and remove all occurrences safely:
+            var comparer = EqualityComparer<T>.Default;
+            int count =0;
             var current = head;
             while (current != null)
             {
-                var next = current.Next;
-                if (current.Data.CompareTo(data) == 0)
+                var next = current.Next; 
+                if (comparer.Equals(current.Data, data))
                 {
-                    // Remove current node in-place
                     if (current == head)
                     {
                         head = head.Next;
@@ -203,18 +187,18 @@ namespace DoublyLinkedListLib
             var current = head;
             while (current != null)
             {
-                if (!counts.ContainsKey(current.Data)) counts[current.Data] = 0;
+                if (!counts.ContainsKey(current.Data)) counts[current.Data] =0;
                 counts[current.Data]++;
                 current = current.Next;
             }
 
-            if (counts.Count == 0)
+            if (counts.Count ==0)
             {
                 Console.WriteLine("No hay elementos.");
                 return;
             }
 
-            int max = 0;
+            int max =0;
             foreach (var kv in counts)
                 if (kv.Value > max) max = kv.Value;
 
@@ -229,7 +213,7 @@ namespace DoublyLinkedListLib
             var current = head;
             while (current != null)
             {
-                if (!counts.ContainsKey(current.Data)) counts[current.Data] = 0;
+                if (!counts.ContainsKey(current.Data)) counts[current.Data] =0;
                 counts[current.Data]++;
                 current = current.Next;
             }
@@ -238,5 +222,5 @@ namespace DoublyLinkedListLib
             foreach (var kv in counts)
                 Console.WriteLine($"{kv.Key}: {new string('*', kv.Value)}");
         }
-    }   
+    }
 }
